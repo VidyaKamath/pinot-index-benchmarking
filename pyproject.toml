@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pinot-index-benchmarking"
+version = "0.1.0"
+description = ""
+authors = ["iamkroot <kroot.patel@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+locust = "^2.19.0"
+locust-plugins = "^4.2.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.6"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
