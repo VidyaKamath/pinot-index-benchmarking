@@ -18,3 +18,7 @@ WHERE TEXT_MATCH(l_shipmode,"AIR")
 SELECT COUNT(*) 
 FROM tpch_lineitem
 WHERE TEXT_MATCH(l_shipinstruct,"DELIVER")
+
+
+Results
+TPCH lineitem: batch ingestion of 10G with StartreeIndexconfig took 25 minutes
