@@ -1,0 +1,35 @@
+executionFrameworkSpec:
+  name: 'standalone'
+  segmentGenerationJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentGenerationJobRunner'
+  segmentTarPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentTarPushJobRunner'
+  segmentUriPushJobRunnerClassName: 'org.apache.pinot.plugin.ingestion.batch.standalone.SegmentUriPushJobRunner'
+jobType: SegmentCreationAndTarPush
+inputDirURI: '/home/vidyak2/raw_data/lineitem_1g_pr'
+includeFileNamePattern: 'glob:**/*.csv'
+outputDirURI: '/home/vidyak2/raw_data/lineitem_1g_pr/pinot_out/segments_no_idx'
+overwriteOutput: true
+pinotFSSpecs:
+  - scheme: file
+    className: org.apache.pinot.spi.filesystem.LocalPinotFS
+recordReaderSpec:
+  dataFormat: 'csv'
+  className: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReader'
+  configClassName: 'org.apache.pinot.plugin.inputformat.csv.CSVRecordReaderConfig'
+  configs:
+    delimiter: '|'
+    multiValueDelimiterEnabled: false
+    header: 'l_orderkey|l_partkey|l_suppkey|l_linenumber|l_quantity|l_extendedprice|l_discount|l_tax|l_returnflag|l_linestatus|l_shipdate|l_commitdate|l_receiptdate|l_shipinstruct|l_shipmode|l_comment|'
+tableSpec:
+  tableName: 'tpch_lineitem_1g_no_idx'
+  schemaURI: 'http://localhost:9000/tables/tpch_lineitem_1g_no_idx/schema'
+  tableConfigURI: 'http://localhost:9000/tables/tpch_lineitem_1g_no_idx'
+pinotClusterSpecs:
+  - controllerURI: 'http://localhost:9000'
+
+pushJobSpec:
+
+  # pushAttempts: number of attempts for push job, default is 1, which means no retry.
+  pushAttempts: 2
+
+  # pushRetryIntervalMillis: retry wait Ms, default to 1 second.
+  pushRetryIntervalMillis: 1000
