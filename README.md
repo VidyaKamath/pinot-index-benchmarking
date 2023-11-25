@@ -19,7 +19,7 @@ SELECT COUNT(*)
 FROM tpch_lineitem
 WHERE TEXT_MATCH(l_shipinstruct,"DELIVER")
 
-### Text Search ([Setup Index](https://docs.pinot.apache.org/basics/indexing/native-text-index))
+### Native Text Index ([Setup Index](https://docs.pinot.apache.org/basics/indexing/native-text-index))
 
 #### Queries:
 SELECT COUNT(*) 
