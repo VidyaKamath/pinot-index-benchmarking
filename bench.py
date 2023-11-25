@@ -74,11 +74,12 @@ def write_results(name, table, times):
         # write header
         with RES_PATH.open("w") as f:
             writer = csv.writer(f)
-            writer.writerow(["name", "table", *[f"run_{i}" for i in range(10)], "avg", "std"])
+            writer.writerow(["name", "table", "run_name", "time"])
 
     with RES_PATH.open("a") as f:
         writer = csv.writer(f)
-        writer.writerow([name, table, *times, statistics.mean(times), statistics.stdev(times)])
+        for i, time in enumerate(times):
+            writer.writerow([name, table, f"run_{i}", time])
 
 
 def main():
