@@ -1,0 +1,23 @@
+{
+  "tableName": "tpch_lineitem_10g",
+  "segmentsConfig" : {
+    "replication" : "1",
+    "schemaName" : "tpch_lineitem_10g",
+    "segmentAssignmentStrategy" : "BalanceNumSegmentAssignmentStrategy"
+  },
+  "tenants" : {
+    "broker":"DefaultTenant",
+    "server":"DefaultTenant"
+  },
+  "tableIndexConfig" : {
+	"starTreeIndexConfigs":[{
+	  "maxLeafRecords": 100,
+	  "functionColumnPairs": ["SUM__l_extendedprice", "SUM__l_discount", "SUM__l_quantity"],
+	  "dimensionsSplitOrder": ["l_receiptdate", "l_shipdate", "l_shipmode", "l_returnflag"],
+	  "skipStarNodeCreationForDimensions": [],
+	  "skipMaterializationForDimensions": ["l_partkey", "l_commitdate", "l_linestatus", "l_comment", "l_orderkey", "l_shipinstruct", "l_linenumber", "l_suppkey"]
+	}]
+  },
+  "tableType":"OFFLINE",
+  "metadata": {}
+}
