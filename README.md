@@ -39,4 +39,6 @@ FROM tpch_lineitem
 WHERE TEXT_CONTAINS(l_shipinstruct,"DELIVER")
 
 # Results
-- TPCH lineitem: batch ingestion of 10G with StartreeIndexconfig took 25 minutes
+- TPCH lineitem: batch ingestion of 1G without any index took 00:02:48
+- TPCH lineitem: batch ingestion of 10G without any index took 00:24:00
+- TPCH lineitem: batch ingestion of 10G with StartreeIndexconfig took 00:25:00
