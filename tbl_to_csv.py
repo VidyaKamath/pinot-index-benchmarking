@@ -31,7 +31,8 @@ def process_row(row):
 
 def process_file(file: Path):
    print(file)
-   with gzip.open(file, mode="rt") as f:
+   opened = gzip.open(file, mode="rt") if file.suffix == ".gz" else file.open("rt")
+   with opened as f:
       r = csv.reader(f, delimiter="|")
       # outs = defaultdict(list)
       for row in r:
