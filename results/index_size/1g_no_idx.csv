@@ -1,0 +1,8 @@
+segment, metadata size, segment_size
+tpch_lineitem_1g_no_idx_OFFLINE_0/v3/metadata.properties,10153,18M
+tpch_lineitem_1g_no_idx_OFFLINE_1/v3/metadata.properties,10150,21M
+tpch_lineitem_1g_no_idx_OFFLINE_2/v3/metadata.properties,10130,21M
+tpch_lineitem_1g_no_idx_OFFLINE_3/v3/metadata.properties,10133,21M
+tpch_lineitem_1g_no_idx_OFFLINE_4/v3/metadata.properties,10191,21M
+tpch_lineitem_1g_no_idx_OFFLINE_5/v3/metadata.properties,10159,21M
+tpch_lineitem_1g_no_idx_OFFLINE_6/v3/metadata.properties,10156,16M
