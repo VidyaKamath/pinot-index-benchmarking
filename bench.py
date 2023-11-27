@@ -20,28 +20,37 @@ QUERY_TEMPLATES = {
     "filt_2": """select count(*) from {table} where l_partkey > 51056""",
     "agg": """SELECT SUM(l_extendedprice), SUM(l_discount) FROM {table}""",
     "filt_3": """SELECT SUM(l_extendedprice) FROM {table} WHERE l_returnflag = 'R'""",
-    "filt_4":    """SELECT SUM(l_extendedprice) FROM {table} WHERE l_shipdate BETWEEN '1996-12-01' AND '1996-12-31'""",
-    "gb_1":    """SELECT SUM(l_extendedprice) FROM {table} GROUP BY l_shipdate""",
+    "filt_4": """SELECT SUM(l_extendedprice) FROM {table} WHERE l_shipdate BETWEEN '1996-12-01' AND '1996-12-31'""",
+    "gb_1": """SELECT SUM(l_extendedprice) FROM {table} GROUP BY l_shipdate""",
     "gb_2": """SELECT SUM(l_extendedprice), SUM(l_quantity) FROM {table} GROUP BY l_shipdate""",
     "gb_filt_1": """SELECT SUM(l_extendedprice) FROM {table} WHERE l_shipdate BETWEEN '1995-01-01' AND '1996-12-31' GROUP BY l_shipdate""",
-    "gb_filt_2":  """SELECT SUM(l_extendedprice) FROM {table} WHERE l_shipmode in ('RAIL', 'FOB') AND l_receiptdate BETWEEN '1997-01-01' AND '1997-12-31' GROUP BY l_shipmode""",
+    "gb_filt_2": """SELECT SUM(l_extendedprice) FROM {table} WHERE l_shipmode in ('RAIL', 'FOB') AND l_receiptdate BETWEEN '1997-01-01' AND '1997-12-31' GROUP BY l_shipmode""",
     "distinct": """SELECT DISTINCT l_shipmode FROM {table}""",
 }
 
 
-# SELECTIVITY_QUERIES = {
-#     "gb_filt_0": """""",
-#     "gb_filt_10": """""",
-#     "gb_filt_20": """""",
-#     "gb_filt_30": """""",
-#     "gb_filt_40": """""",
-#     "gb_filt_50": """""",
-#     "gb_filt_60": """""",
-#     "gb_filt_70": """""",
-#     "gb_filt_80": """""",
-#     "gb_filt_90": """""",
-#     "gb_filt_100": """""",
-# }
+# used duckdb on the raw tbl to get the percentiles. probably could've done it in pinot itself
+# select quantile_disc(L_PARTKEY, [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]) from lineitem;
+SELECTIVITY_QUERIES = {
+    f"gb_filt_sel_{percent}": f"""SELECT SUM(l_extendedprice) FROM {{table}} WHERE l_partkey < {lim}"""
+    for percent, lim in zip(
+        [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        [
+            1,
+            200047,
+            400159,
+            600295,
+            800248,
+            1000264,
+            1200295,
+            1400152,
+            1600148,
+            1800120,
+            2000000,
+        ],
+    )
+}
+
 
 def make_query(template, table):
     return template.format(table=table)
@@ -51,7 +60,7 @@ def run_query(query, name="query"):
     URI = "http://fa23-cs511-011.cs.illinois.edu:9000"
     resp = requests.post(URI + "/sql", json={"sql": query}, params={"name": name})
     assert resp, f"Query {query} failed, {resp}"
-    exc = resp.json()['exceptions']
+    exc = resp.json()["exceptions"]
     assert not exc, "Got exceptions: " + str(exc)
 
 
@@ -67,6 +76,7 @@ def run_benchmark(query, name="query", n=10):
         times.append(execution_time)
         print(f"Execution time: {execution_time} seconds")
     return times
+
 
 def write_results(name, table, times):
     # append the execution times as a csv row
@@ -84,11 +94,14 @@ def write_results(name, table, times):
 
 def main():
     # Run the queries
-    for table, (name, query) in product(["tpch_lineitem_1g_no_idx", "tpch_lineitem_10g", "tpch_lineitem_10g_no_idx"], QUERY_TEMPLATES.items()):
+    for table, (name, query) in product(
+        ["tpch_lineitem_1g_no_idx", "tpch_lineitem_10g", "tpch_lineitem_10g_no_idx"],
+        # QUERY_TEMPLATES.items(),
+        SELECTIVITY_QUERIES.items(),
+    ):
         query = make_query(query, table)
         times = run_benchmark(query, name)
         write_results(name, table, times)
-        # break
 
 
 if __name__ == "__main__":
