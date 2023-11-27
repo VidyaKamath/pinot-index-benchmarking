@@ -1,0 +1,15 @@
+segment_name, star_tree_size
+tpch_lineitem_1g_OFFLINE_0/v3/star_tree_index_map,700
+tpch_lineitem_1g_OFFLINE_0/v3/star_tree_index,4784629
+tpch_lineitem_1g_OFFLINE_1/v3/star_tree_index_map,700
+tpch_lineitem_1g_OFFLINE_1/v3/star_tree_index,5020464
+tpch_lineitem_1g_OFFLINE_2/v3/star_tree_index_map,700
+tpch_lineitem_1g_OFFLINE_2/v3/star_tree_index,5020585
+tpch_lineitem_1g_OFFLINE_3/v3/star_tree_index_map,700
+tpch_lineitem_1g_OFFLINE_3/v3/star_tree_index,3769742
+tpch_lineitem_1g_OFFLINE_4/v3/star_tree_index_map,697
+tpch_lineitem_1g_OFFLINE_4/v3/star_tree_index,2836445
+tpch_lineitem_1g_OFFLINE_5/v3/star_tree_index_map,697
+tpch_lineitem_1g_OFFLINE_5/v3/star_tree_index,2828699
+tpch_lineitem_1g_OFFLINE_6/v3/star_tree_index_map,695
+tpch_lineitem_1g_OFFLINE_6/v3/star_tree_index,2530748
