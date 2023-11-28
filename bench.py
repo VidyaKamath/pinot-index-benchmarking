@@ -5,7 +5,7 @@ from itertools import product
 import csv
 import statistics
 
-RES_PATH = Path("results_basic.csv")
+RES_PATH = Path("results_st_10g.csv")
 
 QUERY_TEMPLATES = {
     "filt_1": """
@@ -81,8 +81,8 @@ def write_results(name, table, times):
 
 
 def main():
-    TABLES = list(f"tpch_lineitem_{size}{('_' * bool(idx)) + idx}" for size, idx in product(("1g", "10g"), ("no_idx", "bitmap_idx", ""),))
-    # TABLES = ["tpch_lineitem_1g_star_idx_" + str(i) for i in [10, 100, 1000, 10000]]
+    # TABLES = list(f"tpch_lineitem_{size}{('_' * bool(idx)) + idx}" for size, idx in product(("1g", "10g"), ("no_idx", "bitmap_idx", ""),))
+    TABLES = ["tpch_lineitem_10g_star_idx_" + str(i) for i in [10, 1000, 10000]] + ["tpch_lineitem_10g"]
     # Run the queries
     RES_PATH.unlink(missing_ok=True)
     for table, (name, query) in product(
